@@ -1,0 +1,181 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width">
+
+	<!-- Use SimpLESS (Win/Linux/Mac) or LESS.app (Mac) to compile your .less files
+  <link rel="stylesheet/less" href="less/style.less">
+  <script src="js/libs/less-1.3.0.min.js"></script>
+  
+	to style.css, and replace the 2 lines above by this one:
+
+   -->
+	<link rel="stylesheet" href="less/style.css">
+
+	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+
+
+    <div class="container">
+      <!--h1>TODO today/week/month</h1-->
+      <h2 id="day"><span>Sunday</span><a href="#clear" class="clear" rel="d">clear</a></h2>
+      <div>
+        <input type="text" id="d1" />
+        <input type="text" id="d2" />
+        <input type="text" id="d3" />
+      </div>
+
+
+      <hr>
+      <div class="row">
+        <div class="span6">
+          <h2>Week<a href="#clear" class="clear" rel="w">clear</a></h2>
+          <div>
+            <input type="text" id="w1"/>
+            <input type="text" id="w2" />
+            <input type="text" id="w3" />
+          </div>
+        </div>  
+        <div class="span6">
+          <h2 id="month"><span>April</span><a href="#clear" class="clear" rel="m">clear</a></h2>
+          <div>
+            <input type="text" id="m1" />
+            <input type="text" id="m2" />
+            <input type="text" id="m3" />
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <p>&copy; Oren Roth 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+<script src="js/libs/bootstrap/bootstrap.min.js"></script>
+
+<!--script src="js/script.js"></script-->
+<script>
+  var date = new Date(),
+      month     = date.getMonth(),
+      weekday   = new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"),
+      monthname = new Array("January","February","March","April","May","June","July","August","September","October","November","December"),
+      day       = date.getDay(),
+      ctrlDown  = false;
+  $("#month span").text(monthname[month]);
+  $("#day span").text(weekday[day]);
+
+  $('input').each(function(){
+      var $this = $(this),
+          id    = $(this).attr('id'),
+          val = localStorage.getItem(id),
+          dir = localStorage.getItem(id + 'dir');
+      
+      $this.keydown(function(event) {
+      
+        var $note = $(this),
+            id    = $note.attr('id');
+        //===================switch text direction=========================
+
+          if (event.which == 17) {
+            ctrlDown = true;
+          }
+          if (event.which == 16) {
+            if(ctrlDown){
+              setTimeout ( function(){saveNote(id + 'dir',$note.css('direction'));},200 ); 
+               $note.css('direction',$(this).css('direction')=="ltr" ? "rtl" : "ltr");
+            }
+          }
+  
+
+          
+           //event.preventDefault();
+           //save here
+           setTimeout ( function(){saveNote(id,$note.val());},10 );         
+      })
+      .keyup(function(event) {
+        if (event.which == 17) {
+          ctrlDown = false;
+        }
+        
+      })
+      .val(val)
+      .wrap('<div class="inputCon' + (localStorage.getItem( id + "complete") ? " complete" : "") + '" />');
+
+      
+
+      if(dir){
+        $this.css('direction',dir);
+      }
+
+
+    });
+  
+  function saveNote(noteId,msg){
+    
+    if(msg === '')
+      localStorage.removeItem(noteId);
+    else
+      localStorage.setItem(noteId,msg);
+  }
+
+  function clearInput(el){
+    var id = el.attr('id');
+    el.parent().removeClass('complete');
+    localStorage.removeItem( id + "complete")
+    el.val('');
+    saveNote(id,el.val());
+  }
+
+  //set the body height to window height minus the padding
+  document.body.style.height = (document.height-100) +"px";
+
+  $(".clear").on('click',function(){
+
+    var elStart = $(this).attr('rel');
+
+    $("input[id^=" + elStart + "]").val('').each(function(){
+      clearInput($(this));
+    });
+  });
+
+  //=================== clear & done =========================
+  $(".inputCon").append('<span class="done">v</span><span class="clearOne">x</span>');
+  $(".done").on('click',function(){
+    var $this = $(this),
+        $parent = $this.parent();
+
+    $parent.toggleClass('complete');
+    
+    
+
+    var id = $this.siblings('input').attr('id');
+    if($parent.hasClass('complete'))
+      saveNote(id + "complete",true);
+    else
+      localStorage.removeItem( id + "complete");
+
+  });
+  $(".clearOne").on('click',function(){
+    var $this = $(this);
+
+    clearInput($this.siblings('input'));
+    
+  });
+</script>
+</body>
+</html>

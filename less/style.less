@@ -1,0 +1,158 @@
+@import "bootstrap/bootstrap.less";
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+
+* { box-sizing: border-box }
+
+.ir { font: 0/0 a; text-shadow: none; color: transparent; }
+.tranition(){
+	-webkit-transition: opacity 500ms ;
+	-moz-transition: opacity 500ms ;
+	-ms-transition: opacity 500ms ;
+	-o-transition: opacity 500ms ;
+	transition: opacity 500ms ;
+}
+
+body {
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 0) 0%,@blueLight 100%),url('http://subtlepatterns.com/patterns/arches.png') repeat fixed;
+  padding-top: 60px;
+  padding-bottom: 40px;
+  font-family: 'Oxygen', sans-serif;
+}
+
+.container{
+	text-align: center;
+}
+
+
+h2{
+	text-align: center;
+	font-size:4em;
+	line-height: 1.5em;
+	color: transparent;
+	@white: white;
+	@pink: darken(@blueLight, 15%);
+	text-shadow: 0 0 2px 
+	@white, 0 0 12px 
+	@white, 0 0 16px 
+	@white, 0 0 20px 
+	@pink, 0 0 30px 
+	@pink, 0 0 40px 
+	@pink, 0 0 50px 
+	@pink, 0 0 80px 
+	@pink;
+	
+	&:hover a{
+		opacity:1;
+	}
+	position: relative;
+}
+
+h2 a{
+	text-shadow:none;
+	opacity:0;
+	position: absolute;
+	.tranition();
+	&:hover{
+		text-decoration: none;
+		color:@linkColor;
+	}
+}
+input{
+	width: 100%;
+	height: 100px;
+	font-size: 2em;
+	padding: 0 90px;
+	background: rgba(255, 255, 255, 0.7);
+	font-family: 'Oxygen', sans-serif;
+	&:focus{
+		background: rgba(255, 255, 255, 0.9);
+	}
+}
+.inputCon{
+	position: relative;
+}
+.inputCon.complete input{
+	text-decoration: line-through;
+	background-color: rgba(98, 54, 184, 0.2);
+}
+
+.clearOne,
+.done{
+	position:absolute;
+	opacity:0;
+	width:100px;
+	height: 100px;
+	.tranition();
+}
+.inputCon:hover{
+	.clearOne,.done{
+		display: block;
+		opacity:1;
+	}
+}
+.clearOne{
+	border-radius: 100px;
+	width: 60px;
+	height: 60px;
+	top: 14px;
+	left: 20px;
+	font-size: 3em;
+	line-height: 1.5em;
+	color: transparent;
+	text-shadow: 0 0 2px 
+	white, 0 0 12px 
+	white, 0 0 16px 
+	white, 0 0 20px 
+	@blueOther, 0 0 30px 
+	@blueOther, 0 0 40px 
+	@blueOther, 0 0 50px 
+	@blueOther, 0 0 80px 
+	@blueOther;
+	cursor: pointer;
+	&:hover{
+		@blueOtherDarken: darken(@blueOther,15%);
+		text-shadow: 0 0 2px 
+		white, 0 0 12px 
+		white, 0 0 16px 
+		white, 0 0 20px 
+		@blueOtherDarken, 0 0 30px 
+		@blueOtherDarken, 0 0 40px 
+		@blueOtherDarken, 0 0 50px 
+		@blueOtherDarken, 0 0 80px 
+		@blueOtherDarken;
+	}
+}
+.done{
+	.ir;
+	color: @blue;
+	border-bottom: 0;
+	border: 8px solid;
+	right: 30px;
+	width: 27px;
+	border-top: 0;
+	height: 50px;
+	border-left: 0;
+	-webkit-transform: rotate(40deg);
+	top: 20px;
+	cursor: pointer;
+	&:hover{
+		color: darken(@blue,15%);
+	}
+}
+@import "bootstrap/responsive.less";
+
+
+/* ===== Primary Styles ========================================================
+   Author:
+   ========================================================================== */
+
+
+
+
+
+
+
+
+
+
+
